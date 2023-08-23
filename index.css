@@ -1,6 +1,6 @@
-/*------------*/
-/* Reset*/
-/*------------*/
+/*--------------------*/
+/* Custom Properties */
+/*-------------------*/
 
 :root{
     /* colors  */
@@ -8,7 +8,7 @@
     --clr-light: 231 77% 90%;
     --clr-white: 0 0% 100%;
       /* font-sizes */
-      --fs-900: 9.375rem;
+      --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
       --fs-800: 6.25rem;
       --fs-700: 3.5rem;
       --fs-600: 2rem;
@@ -22,6 +22,28 @@
       --ff-sans-cond: "Barlow Condensed", sans-serif;
       --ff-sans-normal: "Barlow", sans-serif;
 }
+
+@media (min-width: 35em) {
+    :root {
+
+        --fs-800: 5rem;
+        --fs-700: 2.5rem;
+        --fs-600: 1.5rem;
+        --fs-400: 1rem;
+    }
+}
+
+@media (min-width: 45em) {
+    :root {
+        /* font-sizes */
+        --fs-800: 6.25rem;
+        --fs-700: 3.5rem;
+        --fs-600: 2rem;
+        --fs-400: 1.125rem;
+    }
+}
+
+
 
 /* box-sizing */
 *,
@@ -60,6 +82,8 @@ body{
     background-color:hsl( var(--clr-dark));
     line-height: 1.5;
     min-height: 100vh;
+    display: grid;
+    grid-template-rows: min-content 1fr;
 
 }
 
@@ -112,15 +136,39 @@ select{
 /* .flow > *:not(:first-child){   */
 .flow > *:where(:not(:first-child)){  
     margin-top: var(--flow-space,1rem);
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
 }
 
 
 .container{
     padding-inline: 2em;
     margin-inline: auto;
-    max-width: 60rem;
+    max-width: 80rem;
 }
+
+.grid-container{
+    border: 5px solid limegreen;
+    display: grid;
+}
+
+@media (min-width: 45em) {
+    .grid-container{
+        column-gap: var(--container-gap,2rem);
+        grid-template-columns: minmax( 2rem, 1fr) repeat(2, minmax(0, 30rem)) minmax( 2rem,1fr);
+    
+    }
+    .grid-container > *:first-child{
+        grid-column: 2;
+        outline: 1px solid red;
+    }
+    .grid-container > *:last-child{
+        grid-column: 3;
+        outline: 1px solid yellow;
+    }
+}
+
+
+
 
 
 .sr-only{
@@ -193,3 +241,108 @@ select{
     font-weight: 700;
     color: hsl(var(--clr-white)/.25);
 }
+
+/* -------------- */
+
+/* Comoπonents */
+/* -------------- */
+
+.large-button{
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    padding: 0 2em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    z-index: 1;
+    text-decoration: none;
+}
+
+
+.large-button::after{
+    content: '';
+    position: absolute;
+    background: hsl(var(--clr-white)/.15);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 500ms transform 500ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after{
+    transform: scale(1.5);
+    opacity: 1;
+}
+
+
+.primary-navigation{
+    --gap: 8rem;
+    --underline-gap:2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.primary-navigation a{
+    text-decoration: none;
+}
+
+.primary-navigation a > span{
+    font-weight: 700;
+    margin-right: .5em;
+}
+
+.underline-indicators >*{
+    padding: var(--underline-gap,1rem) 0;
+    cursor: pointer;
+    border: 0;
+    border-bottom: .2rem solid hsl(var(--clr-light)/0);
+}
+
+/* .underline-indicators li:hover,
+.underline-indicators  li:focus {
+    border-color: hsl( var(--clr-white) / .5);
+} */
+
+.underline-indicators  > li:hover,
+.underline-indicators > li:active{
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.underline-indicators  > button:hover,
+.underline-indicators > button:active{
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"]{
+    color: hsl(var(--clr-white)/1) ;
+    border-color: hsl(var(--clr-white)/1) ;
+}
+
+.tab-list{
+    --gap:2rem;
+}
+
+.dot-indicators > *{
+    cursor: pointer;
+    border: 0;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    padding: .5em;
+    background-color: hsl(var(--clr-white)/.25);
+}
+
+.dot-indicators >button:hover,
+.dot-indicators >button:focus{
+    background-color: hsl(var(--clr-white)/.5);
+}
+
+.dot-indicators > [aria-selected="true"] {
+    background-color: hsl( var(--clr-white) / 1); 
+}
+
